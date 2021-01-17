@@ -10,33 +10,9 @@ import org.checkout.ioc.ContextRegistry
  *  @param config.credentialsId - artifactory credentials id stored in jenkins
  * */
 def downloadFrom(Map config=[:]) {
-    println 'in vars/artifactory.downloadFrom'
     ContextRegistry.registerDefaultContext(this)
     def artifactory = new ArtifactoryExecutor(config.artifactoryPath, config.artifactoryUrl, config.credentialsId)
     artifactory.downloadFromArtifactory(config.destinationPath)
-    println 'completed vars/artifactory.downloadFrom'
-    /*if (config.destinationPath) {
-        sh "mkdir -p ${config.destinationPath}"
-        sh "chmod 777 ${config.destinationPath}" // Otherwise Artifactory download won't have permission to write the files
-    }
-    try {
-        def artifactoryServer = Artifactory.newServer url: config.artifactoryUrl, credentialsId: config.credentialsId
-        def downloadSpec = """{
-            "files": [
-                {
-                    "pattern": "${config.artifactoryPath}",
-                    "target": "${config.destinationPath}",
-                    "flat": "true"
-                }
-            ]
-        }"""
-        artifactoryServer.download(downloadSpec)
-        log.info "Successfully downloaded ${downloadSpec} from artifactory"
-
-    } catch (Exception e) {
-        log.error "Caught exception while downloading from Artifactory: ${e}"
-        throw e
-    }*/
 }
 
 /**
